@@ -1,0 +1,10 @@
+{
+    "ignore": [
+        "uploads/*",
+        "*.pdf",
+        "test_upload.js",
+        "debug_pdf.js",
+        "test_deps.js",
+        "test_env.js"
+    ]
+}

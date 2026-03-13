@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+
+/* Mobile-First Base Styles */
+html {
+  font-size: 16px; /* Base font size for mobile */
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive Typography */
+@media (min-width: 768px) {
+  html {
+    font-size: 17px; /* Slightly larger on tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 18px; /* Larger on desktop */
+  }
+}
+
+/* Custom Scrollbar - Enhanced for touch devices */
+.custom-scrollbar {
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px; /* For horizontal scrollbars */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.8);
+}
+
+/* Mobile-specific utilities */
+@media (max-width: 640px) {
+  /* Ensure touch targets are at least 44px */
+  button, a, input[type="button"], input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text from being too small */
+  body {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* Prevent horizontal scroll */
+body {
+  overflow-x: hidden;
+}
+
+/* Safe area for notched devices */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}
+/* Optimization for short screens (e.g., landscape mobile or short laptop) */
+@media (max-height: 500px) {
+  .py-4, .py-6, .py-8, .py-10, .py-12 {
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  
+  .sm\:py-6, .sm\:py-8, .sm\:py-12, .md\:py-8, .md\:py-10 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .mb-5, .mb-6, .mb-8, .mb-10 {
+    margin-bottom: 1rem !important;
+  }
+
+  .mt-6, .mt-8, .mt-10 {
+    margin-top: 1rem !important;
+  }
+
+  h1 { font-size: 1.5rem !important; }
+  h2 { font-size: 1.25rem !important; }
+  h3 { font-size: 1.125rem !important; }
+}

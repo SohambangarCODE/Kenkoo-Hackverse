@@ -259,11 +259,20 @@ export default function useFingerPPG() {
     const avgB = sumB / totalPx;
 
     // Finger detection: when finger covers camera + torch, red channel
-    // will be very high (>100) and dominant over green and blue
-    const isFingerOn = avgR > 100 && avgR > avgG * 1.4 && avgR > avgB * 1.4;
+    // is dominant. Relaxed thresholds because torch brightness varies hugely.
+    // Some phones produce avgR ~60-80 with finger, others ~200+.
+    const isFingerOn = avgR > 50 && avgR > avgG * 1.15 && avgR > avgB * 1.15;
     setFingerDetected(isFingerOn);
 
-    if (isFingerOn) {
+    // Log first few frames for debugging
+    if (frameCount.current < 5 || frameCount.current % 30 === 0) {
+      console.log(`[FingerPPG] R=${avgR.toFixed(1)} G=${avgG.toFixed(1)} B=${avgB.toFixed(1)} finger=${isFingerOn}`);
+    }
+
+    // Always collect data when finger is on, but also collect if red is
+    // dominant even if below strict threshold (some phones have dim torch).
+    const shouldRecord = isFingerOn || (avgR > 30 && avgR > avgG && avgR > avgB);
+    if (shouldRecord) {
       bufferRef.current.push(avgR);
       tsRef.current.push(performance.now());
       frameCount.current++;
@@ -309,15 +318,32 @@ export default function useFingerPPG() {
       setSignalQuality(""); setScanProgress(0); setScanComplete(false);
       setFingerDetected(false); setPpgWaveform([]);
 
-      // Request rear camera
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: { exact: "environment" },
-          width: { ideal: 320 },
-          height: { ideal: 240 },
-        },
-        audio: false,
-      });
+      // Request rear camera — try 3 strategies for maximum device compat
+      let stream;
+      const videoBase = { width: { ideal: 320 }, height: { ideal: 240 } };
+      try {
+        // Strategy 1: exact environment
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { ...videoBase, facingMode: { exact: "environment" } }, audio: false,
+        });
+        console.log('[FingerPPG] Got camera with exact environment');
+      } catch (e1) {
+        console.warn('[FingerPPG] exact env failed, trying preferred…', e1.name);
+        try {
+          // Strategy 2: preferred environment
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { ...videoBase, facingMode: "environment" }, audio: false,
+          });
+          console.log('[FingerPPG] Got camera with preferred environment');
+        } catch (e2) {
+          console.warn('[FingerPPG] preferred env failed, trying any camera…', e2.name);
+          // Strategy 3: any camera at all
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: videoBase, audio: false,
+          });
+          console.log('[FingerPPG] Got camera with any facing mode');
+        }
+      }
       streamRef.current = stream;
       videoEl.srcObject = stream;
       await videoEl.play();

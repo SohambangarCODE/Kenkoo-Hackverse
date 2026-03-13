@@ -538,9 +538,7 @@ const StepVitals = ({ vitals, setVitals }) => {
           <Activity className="w-5 h-5 text-[#1447E6]" /> Enter Your Vitals
         </h2>
         <p className="text-sm text-slate-500">
-          {finger.isMobile
-            ? "Scan your finger on the camera or enter vitals manually."
-            : "Scan your face with the camera or enter vitals manually. All fields are optional."}
+          Scan your vitals with camera or enter manually. All fields are optional.
         </p>
       </div>
 
@@ -710,24 +708,22 @@ const StepVitals = ({ vitals, setVitals }) => {
         </>
       )}
 
-      {/* ───── DESKTOP: Face Scan Button ────────────────────────────── */}
-      {!finger.isMobile && (
-        <button
-          onClick={() => navigate('/app/vitalscan')}
-          className="w-full flex items-center justify-center gap-3 px-5 py-4 rounded-2xl text-sm font-bold text-white
-            bg-gradient-to-r from-blue-500 via-blue-500 to-blue-500 hover:from-blue-600 hover:via-blue-600 hover:to-blue-600
-            shadow-lg shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-[0.99]
-            border border-blue-400/30"
-        >
-          <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
-            <Camera className="w-5 h-5" />
-          </div>
-          <div className="text-left">
-            <span className="block">📷 Scan Vitals with Camera</span>
-            <span className="block text-[10px] font-medium text-white/70">Uses rPPG / EVM to detect Heart Rate, SpO₂, Respiration from your face</span>
-          </div>
-        </button>
-      )}
+      {/* ───── Face Scan Button (Always visible — mobile + desktop) ───── */}
+      <button
+        onClick={() => navigate('/app/vitalscan')}
+        className="w-full flex items-center justify-center gap-3 px-5 py-4 rounded-2xl text-sm font-bold text-white
+          bg-gradient-to-r from-blue-500 via-blue-500 to-blue-500 hover:from-blue-600 hover:via-blue-600 hover:to-blue-600
+          shadow-lg shadow-blue-500/25 transition-all hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-[0.99]
+          border border-blue-400/30"
+      >
+        <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+          <Camera className="w-5 h-5" />
+        </div>
+        <div className="text-left">
+          <span className="block">📷 Scan Vitals with Camera</span>
+          <span className="block text-[10px] font-medium text-white/70">Uses rPPG / EVM to detect Heart Rate, SpO₂, Respiration from your face</span>
+        </div>
+      </button>
 
       {/* ───── Manual Vitals Grid ───────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -778,7 +774,7 @@ const StepVitals = ({ vitals, setVitals }) => {
               value={vitals.diastolic}
               onChange={(e) => updateVital("diastolic", e.target.value)}
               placeholder="80"
-              className="flex-1 bg-white border border-blue-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-400"
+              className="flex-1 bg-white w-full border border-blue-200 rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-400"
             />
             <span className="text-xs text-slate-500 font-medium">mmHg</span>
           </div>

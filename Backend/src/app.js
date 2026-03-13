@@ -11,7 +11,7 @@ const app = express()
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) || origin === "https://photons-innovate.onrender.com" || origin === "https://kenkoo-morpheus.onrender.com") {
+    if (!origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin) || origin === "https://kenkoo-hackverse.onrender.com" || origin === "https://kenkoo-hackverse.onrender.com") {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

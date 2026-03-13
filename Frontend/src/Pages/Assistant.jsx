@@ -13,11 +13,11 @@ import { useChat } from "../context/ChatContext"; // Import useChat
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const API_CHAT_URL = isLocal
   ? `http://${window.location.hostname}:3000/api/assistant/chat`
-  : "https://kenkoo-morpheus.onrender.com/api/assistant/chat";
+  : "https://kenkoo-hackverse.onrender.com/api/assistant/chat";
 
 const API_UPLOAD_URL = isLocal
   ? `http://${window.location.hostname}:3000/api/assistant/upload`
-  : "https://kenkoo-morpheus.onrender.com/api/assistant/upload";
+  : "https://kenkoo-hackverse.onrender.com/api/assistant/upload";
 
 
 const Assistant = () => {

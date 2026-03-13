@@ -24,7 +24,7 @@ function ContactPage() {
         // Remove access_key if it exists
         delete object.access_key;
 
-        const res = await fetch("https://kenkoo-morpheus.onrender.com/api/contact/submit", {
+        const res = await fetch("https://kenkoo-hackverse.onrender.com/api/contact/submit", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -19,11 +19,11 @@ const Records = () => {
   const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
   const API_URL = isLocal 
     ? `http://${window.location.hostname}:3000/api/records`
-    : "https://kenkoo-morpheus.onrender.com/api/records";
+    : "https://kenkoo-hackverse.onrender.com/api/records";
 
   const UPLOAD_URL = isLocal
     ? `http://${window.location.hostname}:3000/api/assistant/upload`
-    : "https://kenkoo-morpheus.onrender.com/api/assistant/upload";
+    : "https://kenkoo-hackverse.onrender.com/api/assistant/upload";
 
   const features = [
     {
@@ -142,7 +142,7 @@ const Records = () => {
       const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
       const baseUrl = isLocal 
         ? `http://${window.location.hostname}:3000/api/records`
-        : "https://kenkoo-morpheus.onrender.com/api/records";
+        : "https://kenkoo-hackverse.onrender.com/api/records";
       
       const res = await fetch(`${baseUrl}/${record._id}/view`, {
         headers: {
@@ -154,7 +154,7 @@ const Records = () => {
         // Fallback for old files that don't have fileData in DB yet
         const fileLink = isLocal 
           ? `http://${window.location.hostname}:3000${record.fileUrl}`
-          : `https://kenkoo-morpheus.onrender.com${record.fileUrl}`;
+          : `https://kenkoo-hackverse.onrender.com${record.fileUrl}`;
         window.open(fileLink, "_blank");
         return;
       }

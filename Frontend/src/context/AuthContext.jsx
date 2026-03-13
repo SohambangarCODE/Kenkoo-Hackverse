@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
   const API_URL = isLocal
     ? `http://${window.location.hostname}:3000/api`
-    : "https://kenkoo-morpheus.onrender.com/api";
+    : "https://kenkoo-hackverse.onrender.com/api";
 
   useEffect(() => {
     // Check for token in localStorage on mount

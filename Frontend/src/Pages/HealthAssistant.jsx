@@ -545,6 +545,10 @@ const StepVitals = ({ vitals, setVitals }) => {
       {/* ───── MOBILE: Finger PPG Scanner ────────────────────────────── */}
       {finger.isMobile && (
         <>
+          {/* Persistent hidden video + canvas — MUST NOT be inside conditional blocks */}
+          <video ref={fingerVideoRef} className="hidden" autoPlay playsInline muted />
+          <canvas ref={fingerCanvasRef} className="hidden" />
+
           {/* Scan Complete Results Card */}
           {finger.scanComplete && (
             <div className="bg-gradient-to-br from-emerald-50 to-green-50 border border-emerald-200 rounded-2xl p-5 space-y-4">
@@ -578,7 +582,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                   }`}>{finger.circulationQuality}</p>
                 </div>
               </div>
-              {/* Waveform */}
               {finger.ppgWaveform.length > 5 && (
                 <div className="bg-white rounded-xl p-3 border border-emerald-100">
                   <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-2">PPG Waveform</p>
@@ -605,10 +608,6 @@ const StepVitals = ({ vitals, setVitals }) => {
           {/* Active Scanning UI */}
           {finger.isScanning && (
             <div className="bg-slate-900 rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
-              {/* Hidden video + canvas for capture */}
-              <video ref={fingerVideoRef} className="hidden" autoPlay playsInline muted />
-              <canvas ref={fingerCanvasRef} className="hidden" />
-
               <div className="p-6 text-center space-y-4">
                 {/* Circular progress */}
                 <div className="relative w-32 h-32 mx-auto">
@@ -627,7 +626,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                   </div>
                 </div>
 
-                {/* Finger detection status */}
                 <div className="flex items-center justify-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${finger.fingerDetected ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
                   <span className="text-xs font-bold text-white/80">
@@ -635,7 +633,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                   </span>
                 </div>
 
-                {/* Live waveform preview */}
                 {finger.ppgWaveform.length > 5 && (
                   <div className="h-20 mt-2">
                     <ResponsiveContainer width="100%" height="100%">
@@ -648,7 +645,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                   </div>
                 )}
 
-                {/* Instruction */}
                 <p className="text-[10px] text-slate-500">
                   Keep your finger firmly pressed. The flashlight illuminates blood flow.
                 </p>
@@ -661,7 +657,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                 </button>
               </div>
 
-              {/* Disclaimer */}
               <div className="px-4 py-2 bg-amber-500/10 border-t border-amber-500/20">
                 <p className="text-[9px] text-amber-400 flex items-start gap-1.5">
                   <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-0.5" />
@@ -671,13 +666,9 @@ const StepVitals = ({ vitals, setVitals }) => {
             </div>
           )}
 
-          {/* Start Scan Button (mobile, when not scanning and not complete) */}
+          {/* Start Scan Button */}
           {!finger.isScanning && !finger.scanComplete && (
             <>
-              {/* Hidden video + canvas elements needed before scan starts */}
-              <video ref={fingerVideoRef} className="hidden" autoPlay playsInline muted />
-              <canvas ref={fingerCanvasRef} className="hidden" />
-
               <button
                 onClick={handleStartFingerScan}
                 className="w-full flex items-center gap-3 px-5 py-4 rounded-2xl text-sm font-bold text-white
@@ -695,7 +686,6 @@ const StepVitals = ({ vitals, setVitals }) => {
                 <Smartphone className="w-4 h-4 text-white/50" />
               </button>
 
-              {/* Error */}
               {finger.error && (
                 <div className="bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                   <p className="text-xs text-red-600 flex items-center gap-2">
